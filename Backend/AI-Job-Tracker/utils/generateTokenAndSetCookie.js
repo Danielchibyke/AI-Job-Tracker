@@ -8,7 +8,7 @@ const generateTokenAndSetCookie = async (res, userid)=>{
     res.cookie('token', token, {
         httpOnly: true, // prevents xss attack
         secure: process.env.MODE_ENV === 'production', 
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 7*24*60*60*1000,
     });
     return token

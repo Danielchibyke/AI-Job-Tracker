@@ -1,11 +1,15 @@
 import express from "express";
-import {signUp, login, logout} from '../controllers/auth.controller.js'
+import userService from "../services/user.service.js";
+import { verifyToken } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
+router.post("/signup", userService.signUp);
+router.post("/login", userService.login);
+router.post("/logout", verifyToken, userService.logout);
+router.get("/welcome", verifyToken, userService.welcome);
+router.get("/feeds", verifyToken ,(req, res)=>{
+    res.send('feeds')
+})
 
-router.post('/signup', signUp);
-router.post('/login', login);
-router.post('/logout', logout);
-
-export default router
+export default router;
