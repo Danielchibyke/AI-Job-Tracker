@@ -6,6 +6,8 @@ import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from "cookie-parser";
 import JobSeekerService from './services/job.seeker.service.js';
+import aiRoute from './routes/ai.routes.js';
+import jobRoute from './routes/job.route.js';
 
 
 app.use(
@@ -20,9 +22,11 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
-console.log(JobSeekerService.searchJob('backend'));
+
 
 app.use('/api/auth', authRoutes);
+app.use('/api/jobs', jobRoute);
+app.use('/api/ai', aiRoute)
 
 
 

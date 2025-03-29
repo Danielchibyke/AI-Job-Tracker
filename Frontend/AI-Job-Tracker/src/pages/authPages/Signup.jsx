@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import axios from "axios";
 import {login, signup} from "../../api/auth.api.js";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 const Signup = () => {
+  const auth = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -13,15 +15,11 @@ const Signup = () => {
   const navigate = useNavigate();
 
   //navigate to home page if user aleay exist
-  axios
-    .get("http://localhost:3000/api/auth/welcome", { withCredentials: true })
-    .then((res) => {
-      if (res.data.user) {
+
+      if (auth.user !== null) {
         navigate("/");
       }
-    })
-    .catch((err) => {});
-
+ 
   // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,6 +33,7 @@ const Signup = () => {
       const res = signup(formData)
       alert("User registered successfully");
       console.log(res.data);
+      navigate('/')
     } catch (err) {
       console.error(err.response?.data?.msg || "Registration failed");
     }
@@ -44,7 +43,7 @@ const Signup = () => {
    }
 
   return (
-    <>
+    <div id="signup">
    
     <form onSubmit={handleSubmit}>
       <input
@@ -74,7 +73,7 @@ const Signup = () => {
       <button type="submit">Sign Up</button>
     </form>
     <button onClick={gotoLogin}>Login</button>
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,14 @@
 *{
   margin: 0;
-  box-sizing: border-box;
   padding: 0;
-
-  --primary-color: #46C93F;
-  --primary-dark: #27A700;
-  --primary-light: #C8F2B2;
+  --primary-color: white;
+  --primary-dark: #7B7B7B;
+  --primary-light: #D4D4D4;
   --background: white;
   --text-primary: #370B0B;
   --text-secondary: white;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: ease-in-out;
+  transition-duration: 10ms;
 }

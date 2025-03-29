@@ -1,11 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { login } from "../../api/auth.api";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import './authstyles.css';
+import { AuthContext } from "../../context/AuthProvider";
+
 export const Login = () => {
   const navigate = useNavigate();
-
+  const auth = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,14 +18,11 @@ export const Login = () => {
     navigate("/signup");
   };
   //navigate to home page if user aleay exist
-  axios
-    .get("http://localhost:3000/api/auth/welcome", { withCredentials: true })
-    .then((res) => {
-      if (res.data.user) {
+ 
+      if (auth.user !== null) {
         navigate("/");
       }
-    })
-    .catch((err) => {});
+  
   // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,12 +38,12 @@ export const Login = () => {
       alert(`welcome back ${(await res).data.user.fullname}`);
       navigate("/");
     } catch (err) {
-      console.error(err.response?.data?.msg || "Registration failed");
+      console.error(err.response?.data?.msg || " User not found please register");
     }
   };
 
   return (
-    <div>
+    <div id="login">
       <form onSubmit={handleSubmit}>
         <input
           type="email"

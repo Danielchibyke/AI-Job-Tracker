@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { dashboard } from "../api/auth.api";
+
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         if (err.response?.status === 401) {
           navigate("/login");
         }
-        navigate("/");
+        // navigate("/");
       });
   }, [navigate, location.pathname]);
 

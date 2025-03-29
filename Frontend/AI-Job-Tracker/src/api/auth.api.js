@@ -13,19 +13,10 @@ export const login = async (userData) => {
             .then();
 };
 export const signup = async (userData) => {
-  await axios.post(`http://localhost:3000/api/auth/signup`, userData);
+  await axios.post(`http://localhost:3000/api/auth/signup`, userData)
+              
 };
 export const logout = async () =>{
   await axios.post('http://localhost:3000/api/auth/logout')
+              .then( window.location.href = "/login")
 }
-export const dashboard = async () => {
- 
-  return await axios
-    .get(`http://localhost:3000/api/auth/welcome`, { withCredentials: true })
-    .then(console.log("welcome"))
-    .catch((error)=>{
-      console.error();
-    
-      // window.location.href = "/login";
-    });
-};

@@ -11,7 +11,7 @@ class JobListing{
         this.postDate = postDate;
         this.applicationDeadline = applicationDeadline
     }
-
+     
     updateJobDetail(){}
     closeJobPosting(){}
     

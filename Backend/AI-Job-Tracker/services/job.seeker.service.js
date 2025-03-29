@@ -10,10 +10,12 @@ class JobSeekerService {
 
     searchJob=async(title)=>{
         const fJob = await Job.findOne({title: 'backend'});
-        console.log(fJob)
+        console.log(fJob);
     };
 
-    applyForJob(){};
+    applyForJob(){
+        
+    };
     trackApplicationStatus(){};
     receiveRecommendation(){};
     optimizeResume(){};
