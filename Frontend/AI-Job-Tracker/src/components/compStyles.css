@@ -1,0 +1,112 @@
+#aicomponentwrapper{
+    width: inherit;
+    height: 300px;
+    display: flex;
+   justify-content: center;
+    .ai{
+        margin: 10px;
+    }
+    
+}
+
+#aicomponent {
+  width: 100%;
+  padding: 20px;
+}
+
+#aicomponentwrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 10px;
+}
+
+.ai-service-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ai-service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ai-service-card h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.ai-service-card p {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.service-details {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.job-recommendation {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.job-recommendation h4 {
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.cover-letter-preview {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.cv-feedback ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cv-feedback li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.tracking-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.stat {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.stat h4 {
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.stat p {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #3498db;
+  margin: 0;
+}

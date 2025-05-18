@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // console.log(user);
 
-    const publicRoutes = ["/login", "/signup"];
+    const publicRoutes = ["/", "/login", "/signup", "/features"];
     if (publicRoutes.includes(location.pathname)) {
       return;
     }
@@ -40,6 +40,6 @@ export const AuthProvider = ({ children }) => {
   }, [navigate, location.pathname]);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
   );
 };

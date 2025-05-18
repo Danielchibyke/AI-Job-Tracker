@@ -13,8 +13,7 @@ export const login = async (userData) => {
             .then();
 };
 export const signup = async (userData) => {
-  await axios.post(`http://localhost:3000/api/auth/signup`, userData)
-              
+  return await axios.post(`http://localhost:3000/api/auth/signup`, userData);
 };
 export const logout = async () =>{
   await axios.post('http://localhost:3000/api/auth/logout')

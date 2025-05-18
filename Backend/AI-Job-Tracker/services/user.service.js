@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "../models/user.model.js";
+import User from '../models/user.model.js';
 import bcryptjs from "bcryptjs";
 import { generateVerificationToken } from "../utils/generateVerificationCode.js";
 import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
@@ -14,7 +14,7 @@ class UserService {
 
             try {
             if (!email || !password || !fullname) {
-                throw new error("all field are required!");
+                throw new Error("all fields are required!");
             }
             const userAlreadyExists = await User.findOne({ email });
             if (userAlreadyExists) {
@@ -23,13 +23,12 @@ class UserService {
                 .json({ sucess: false, message: "user already exists" });
             }
 
-            const hashedPassword = await bcryptjs.hash(password, 10);
             const verificationToken = await generateVerificationToken(); // generates random code
 
             const user = new User({
                 fullname,
                 email,
-                password: hashedPassword,
+                password,
                 verificationToken,
                 verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, //24 hours
             });
@@ -49,7 +48,8 @@ class UserService {
                 },
             });
             } catch (error) {
-            return res.status(400).json({ sucess: false, message: "can't signup" });
+            console.error("Signup error:", error);
+            return res.status(400).json({ success: false, message: error.message, error });
             }
         };
 
@@ -67,26 +67,28 @@ class UserService {
             try {
             if (!email || !password) {
                 return res
-                .statu(400)
-                .json({ sucess: false, message: "Field is empty!" });
+                .status(400)
+                .json({ success: false, message: "Field is empty!" });
             }
             if (!userInDb) {
                 return res
                 .status(401)
-                .json({ sucess: false, message: `User not found please sign up!` });
+                .json({ success: false, message: `User not found please sign up!` });
             }
+            console.log('User found:', userInDb.email);
             const isMatch = await bcryptjs.compare(password, userInDb.password);
+            console.log('Password match:', isMatch);
         
             if (!isMatch)
                 return res
                 .status(400)
-                .json({ sucess: false, message: "Invalide Credential!" });
+                .json({ success: false, message: "Invalid Credentials!" });
         
             if(isMatch){ 
             generateTokenAndSetCookie(res, userInDb._id);
             return res
                 .status(202)
-                .json({ sucess: true, user:{ ...userInDb._doc, password:null}, message: `welcome back ${email}` });
+                .json({ success: true, user:{ ...userInDb._doc, password:null}, message: `welcome back ${email}` });
             }
             
             } catch (error) {

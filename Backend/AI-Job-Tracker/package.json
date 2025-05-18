@@ -10,6 +10,7 @@
   "type": "module",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.8.2",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
@@ -19,9 +20,13 @@
     "express": "^4.21.2",
     "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.9.0",
     "mongoose": "^8.10.0",
+    "multer": "^1.4.5-lts.2",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.10.0",
     "openai": "^4.83.0",
+    "pdf-parse": "^1.1.1",
     "serpapi": "^2.1.0"
   }
 }

@@ -9,6 +9,10 @@ app.use(express.json());
 export const verifyToken = async (req, res, next)=>{
     const token =await req.cookies.token;
     if(!token){
+        console.error('No token provided in request:', {
+            cookies: req.cookies,
+            headers: req.headers
+          });
         return res.status(401).json({sucess: false, message:'access denied'});
     }
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
