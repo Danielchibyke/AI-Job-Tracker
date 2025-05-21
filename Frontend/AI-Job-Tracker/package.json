@@ -10,21 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
     "axios": "^1.8.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "framer-motion": "^12.10.0",
+    "globals": "^15.14.0",
     "js-cookie": "^3.0.5",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^7.2.0",
     "recharts": "^2.15.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.21",
-    "globals": "^15.14.0",
-    "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "vite": "^6.1.0"
   },
@@ -38,6 +39,5 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0"
-   
   }
 }
