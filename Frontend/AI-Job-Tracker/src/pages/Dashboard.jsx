@@ -52,6 +52,7 @@ export const Dashboard = () => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [aiProfile, setAiProfile] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL || '/api';
 
   useEffect(() => {
     async function fetchData() {
@@ -189,7 +190,7 @@ export const Dashboard = () => {
 
     setIsAutoApplying(true);
     try {
-      const response = await axios.post('http://localhost:3000/api/ai/auto-apply', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ai/auto-apply`, {
         userId: user._id,
         jobIds: selectedJobs
       });
@@ -198,7 +199,7 @@ export const Dashboard = () => {
       toast.success('Batch auto-apply completed successfully!');
       
       // Refresh data
-      const { data: { stats: appStats, applications } } = await axios.post("http://localhost:3000/api/ai/application-tracking", { userId: user._id });
+      const { data: { stats: appStats, applications } } = await axios.post(`${import.meta.env.VITE_API_URL}/api/ai/application-tracking`, { userId: user._id });
       setApplicationStats(appStats);
       setRecentActivity(appStats.recentActivity);
       
