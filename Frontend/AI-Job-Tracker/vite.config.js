@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://ai-job-tracker-6ekq.onrender.com',
         changeOrigin: true,
         secure: false,
         credentials: true,
