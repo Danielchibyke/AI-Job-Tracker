@@ -71,6 +71,9 @@ app.use('/api/jobs', jobRoute);
 app.use('/api/ai', aiRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/automation', automationLogRoutes);
+app.get('/',(req, res)=>{
+  res.status(200).json('server is up and running!')
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
