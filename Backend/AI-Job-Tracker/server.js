@@ -19,6 +19,7 @@ import automationLogRoutes from './routes/automationLog.routes.js';
 import User from './models/user.model.js';
 import aiService from './services/ai.service.js';
 import AutomationLog from './models/automationLog.model.js';
+import rateLimit from 'express-rate-limit';
 
 // Load environment variables first
 dotenv.config();
@@ -29,29 +30,33 @@ const __dirname = dirname(__filename);
 const allowedOrigins = [
   'http://localhost:5173',        // Local dev
   'http://192.168.56.1:5173',    // LAN access
-  ' http://172.20.10.3:5173', // Production
+ // Production
+  'https://ai-job-tracker-siia.vercel.app',
+  'https://ai-job-tracker-6ekq.onrender.com'
 ];
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-
-  origin: function (origin, callback) {
-      // Allow requests with no origin (e.g., mobile apps, Postman)
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.includes(origin)) {
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     },
+    
     credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type"]
+    allowedHeaders: ["Authorization", "Content-Type", "X-Requested-With"],
+    exposedHeaders: ["Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
   })
 );
-
+//rate limiter
+app.use('/api/auth', rateLimit({ windowMs: 15*60*1000, max: 5 }));
+// Handle OPTIONS requests
+app.options('*', cors());
 // Serve static files from uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -67,6 +72,9 @@ app.use('/api/jobs', jobRoute);
 app.use('/api/ai', aiRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/automation', automationLogRoutes);
+app.get('/api/test',(req, res)=>{
+  res.status(200).json('server is up and running!')
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

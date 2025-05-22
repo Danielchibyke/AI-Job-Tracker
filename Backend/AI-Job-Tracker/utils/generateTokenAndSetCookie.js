@@ -11,7 +11,7 @@ const generateTokenAndSetCookie = async (res, userid)=>{
         sameSite: 'none', // Required for cross-site cookies
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/',
-        domain: '.render.com' // Or your custom domain
+        domain: 'ai-job-tracker-6ekq.onrender.com',
       });
     return token
 }
