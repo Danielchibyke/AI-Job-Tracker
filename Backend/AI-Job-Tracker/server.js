@@ -30,6 +30,7 @@ const allowedOrigins = [
   'http://localhost:5173',        // Local dev
   'http://192.168.56.1:5173',    // LAN access
   ' https://ai-job-tracker-siia-jzodig7nx-danielchibykes-projects.vercel.app/', // Production
+  'https://ai-job-tracker-siia.vercel.app/'
 ];
 // Middleware
 app.use(express.json());
@@ -48,7 +49,8 @@ app.use(
       }
     },
     credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type"]
+    allowedHeaders: ["Authorization", "Content-Type"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
