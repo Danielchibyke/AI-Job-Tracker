@@ -6,14 +6,13 @@ const generateTokenAndSetCookie = async (res, userid)=>{
     });
 
     res.cookie('token', token, {
-        httpOnly: true, // prevents xss attack
-        secure: process.env.NODE_ENV === 'production', 
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        maxAge: 7*24*60*60*1000,
-        
+        httpOnly: true,
+        secure: true, // Always true for HTTPS
+        sameSite: 'none', // Required for cross-site cookies
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/',
-       
-    });
+        domain: '.render.com' // Or your custom domain
+      });
     return token
 }
  export default generateTokenAndSetCookie

@@ -1,6 +1,4 @@
 import axios from "axios";
-import React from "react";
-import { useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "https://ai-job-tracker-6ekq.onrender.com";
 
@@ -17,5 +15,5 @@ export const signup = async (userData) => {
 };
 export const logout = async () =>{
   await axios.post('https://ai-job-tracker-6ekq.onrender.com/api/auth/logout')
-              .then( window.location.href = "/login")
+              
 }

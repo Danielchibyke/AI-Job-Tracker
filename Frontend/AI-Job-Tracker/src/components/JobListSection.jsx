@@ -74,9 +74,7 @@ function JobListSection({
   // JobCard subcomponent (preserves all styles)
   function JobCard({ job, isApplied, isSaved, onSave, onApply, onCancel, onSelect, selected, showCheckbox = true }) {
     const navigate = useNavigate();
-   
     return (
-
       <div
         key={job._id}
         className="border rounded-lg p-4 hover:shadow-lg transition-shadow relative bg-white focus-within:ring-2 focus-within:ring-blue-400 cursor-pointer"
