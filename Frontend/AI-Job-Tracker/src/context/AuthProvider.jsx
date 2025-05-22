@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     axios
-      .get("http://localhost:3000/api/auth/welcome", { withCredentials: true })
+      .get("https://ai-job-tracker-6ekq.onrender.com/api/auth/welcome", { withCredentials: true })
       .then((res) => {
         setUser(res.data.user);
       })

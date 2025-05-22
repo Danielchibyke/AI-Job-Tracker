@@ -29,7 +29,7 @@ const __dirname = dirname(__filename);
 const allowedOrigins = [
   'http://localhost:5173',        // Local dev
   'http://192.168.56.1:5173',    // LAN access
-  ' http://172.20.10.3:5173', // Production
+  ' https://ai-job-tracker-siia-jzodig7nx-danielchibykes-projects.vercel.app/', // Production
 ];
 // Middleware
 app.use(express.json());
