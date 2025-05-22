@@ -29,8 +29,8 @@ const __dirname = dirname(__filename);
 const allowedOrigins = [
   'http://localhost:5173',        // Local dev
   'http://192.168.56.1:5173',    // LAN access
-  ' https://ai-job-tracker-siia-jzodig7nx-danielchibykes-projects.vercel.app/', // Production
-  'https://ai-job-tracker-siia.vercel.app/',
+  ' https://ai-job-tracker-siia-jzodig7nx-danielchibykes-projects.vercel.app', // Production
+  'https://ai-job-tracker-siia.vercel.app',
   'https://ai-job-tracker-6ekq.onrender.com'
 ];
 // Middleware
@@ -38,23 +38,22 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-
-  origin: function (origin, callback) {
-      // Allow requests with no origin (e.g., mobile apps, Postman)
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.includes(origin)) {
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Authorization", "Content-Type", "X-Requested-With"],
+    exposedHeaders: ["Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
   })
 );
 
+// Handle OPTIONS requests
+app.options('*', cors());
 // Serve static files from uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
