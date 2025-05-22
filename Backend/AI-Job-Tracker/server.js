@@ -19,6 +19,7 @@ import automationLogRoutes from './routes/automationLog.routes.js';
 import User from './models/user.model.js';
 import aiService from './services/ai.service.js';
 import AutomationLog from './models/automationLog.model.js';
+import rateLimit from 'express-rate-limit';
 
 // Load environment variables first
 dotenv.config();
@@ -29,7 +30,7 @@ const __dirname = dirname(__filename);
 const allowedOrigins = [
   'http://localhost:5173',        // Local dev
   'http://192.168.56.1:5173',    // LAN access
-  ' https://ai-job-tracker-siia-jzodig7nx-danielchibykes-projects.vercel.app', // Production
+ // Production
   'https://ai-job-tracker-siia.vercel.app',
   'https://ai-job-tracker-6ekq.onrender.com'
 ];
@@ -51,7 +52,8 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
   })
 );
-
+//rate limiter
+app.use('/api/auth', rateLimit({ windowMs: 15*60*1000, max: 5 }));
 // Handle OPTIONS requests
 app.options('*', cors());
 // Serve static files from uploads
