@@ -29,7 +29,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const allowedOrigins = [
   'http://localhost:5173',        // Local dev
-  'http://192.168.56.1:5173',    // LAN access
  // Production
   'https://ai-job-tracker-siia.vercel.app',
   'https://ai-job-tracker-6ekq.onrender.com'
@@ -54,7 +53,10 @@ app.use(
   })
 );
 //rate limiter
-app.use('/api/auth', rateLimit({ windowMs: 15*60*1000, max: 5 }));
+app.use('/api/auth', rateLimit({ windowMs: 15*60*1000, max: 5,  keyGenerator: (req) => req.headers['x-forwarded-for'] || req.ip }));
+
+// Trust proxy headers (important for Vercel)
+app.set('trust proxy', true);
 // Handle OPTIONS requests
 app.options('*', cors());
 // Serve static files from uploads
