@@ -18,6 +18,7 @@ import { Toaster } from 'react-hot-toast';
 import AutomationMonitor from './pages/AutomationMonitor';
 import Features from './pages/Features';
 import JobDetails from './pages/JobDetails';
+//test git
 
 function App() {
   const location = useLocation();
