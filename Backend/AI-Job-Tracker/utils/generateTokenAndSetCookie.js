@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+
 const generateTokenAndSetCookie = async (res, userid) => {
   const token = jwt.sign({ userid }, process.env.JWT_SECRET, {
     expiresIn: '7d',
@@ -14,8 +15,8 @@ const generateTokenAndSetCookie = async (res, userid) => {
   if (process.env.NODE_ENV === 'production') {
     cookieOptions.secure = true;
     cookieOptions.sameSite = 'none';
-    // The domain should be set by the production environment, not hardcoded
-    // cookieOptions.domain = 'ai-job-tracker-6ekq.onrender.com'; 
+    cookieOptions.domain = 'ai-job-tracker-uq0f.onrender.com'; // Explicitly set for production 
+    
   } else {
     // For local development
     cookieOptions.secure = false;
