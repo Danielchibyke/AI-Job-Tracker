@@ -27,7 +27,8 @@ const allowedOrigins = [
   'http://localhost:5173',        // Local dev
  // Production
   'https://ai-job-tracker-siia.vercel.app',
-  'https://ai-job-tracker-6ekq.onrender.com'
+  'https://ai-job-tracker-6ekq.onrender.com',
+  'https://ai-job-tracker-uq0f.onrender.com'
 ];
 // Middleware
 app.use(cookieParser());
