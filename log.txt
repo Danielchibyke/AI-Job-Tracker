@@ -1,86 +1,21 @@
-Download the React DevTools for a better development experience: https://react.dev/link/react-devtools
-api.js:180 
-        
-        
-       POST http://localhost:5173/api/users/profile/avatar 400 (Bad Request)
-enhancedFetch @ api.js:180
-(anonymous) @ api.js:490
-retryRequest @ api.js:36
-uploadAvatar @ api.js:489
-handleAvatarUpload @ Profile.jsx:107
-processDispatchQueue @ react-dom_client.js?v=57c187ce:11577
-(anonymous) @ react-dom_client.js?v=57c187ce:11988
-batchedUpdates$1 @ react-dom_client.js?v=57c187ce:2539
-dispatchEventForPluginEventSystem @ react-dom_client.js?v=57c187ce:11683
-dispatchEvent @ react-dom_client.js?v=57c187ce:14608
-dispatchDiscreteEvent @ react-dom_client.js?v=57c187ce:14589
-Show 6 more frames
-Show less
-api.js:39 Retrying request... 2 attempts left
-retryRequest @ api.js:39
-await in retryRequest (async)
-uploadAvatar @ api.js:489
-handleAvatarUpload @ Profile.jsx:107
-processDispatchQueue @ react-dom_client.js?v=57c187ce:11577
-(anonymous) @ react-dom_client.js?v=57c187ce:11988
-batchedUpdates$1 @ react-dom_client.js?v=57c187ce:2539
-dispatchEventForPluginEventSystem @ react-dom_client.js?v=57c187ce:11683
-dispatchEvent @ react-dom_client.js?v=57c187ce:14608
-dispatchDiscreteEvent @ react-dom_client.js?v=57c187ce:14589
-Show 6 more frames
-Show less
-api.js:180 
-        
-        
-       POST http://localhost:5173/api/users/profile/avatar 400 (Bad Request)
-enhancedFetch @ api.js:180
-(anonymous) @ api.js:490
-retryRequest @ api.js:36
-retryRequest @ api.js:41
-await in retryRequest (async)
-uploadAvatar @ api.js:489
-handleAvatarUpload @ Profile.jsx:107
-processDispatchQueue @ react-dom_client.js?v=57c187ce:11577
-(anonymous) @ react-dom_client.js?v=57c187ce:11988
-batchedUpdates$1 @ react-dom_client.js?v=57c187ce:2539
-dispatchEventForPluginEventSystem @ react-dom_client.js?v=57c187ce:11683
-dispatchEvent @ react-dom_client.js?v=57c187ce:14608
-dispatchDiscreteEvent @ react-dom_client.js?v=57c187ce:14589
-Show 6 more frames
-Show less
-api.js:39 Retrying request... 1 attempts left
-retryRequest @ api.js:39
-await in retryRequest (async)
-retryRequest @ api.js:41
-await in retryRequest (async)
-uploadAvatar @ api.js:489
-handleAvatarUpload @ Profile.jsx:107
-processDispatchQueue @ react-dom_client.js?v=57c187ce:11577
-(anonymous) @ react-dom_client.js?v=57c187ce:11988
-batchedUpdates$1 @ react-dom_client.js?v=57c187ce:2539
-dispatchEventForPluginEventSystem @ react-dom_client.js?v=57c187ce:11683
-dispatchEvent @ react-dom_client.js?v=57c187ce:14608
-dispatchDiscreteEvent @ react-dom_client.js?v=57c187ce:14589
-Show 6 more frames
-Show less
-api.js:180 
-        
-        
-       POST http://localhost:5173/api/users/profile/avatar 400 (Bad Request)
-enhancedFetch @ api.js:180
-(anonymous) @ api.js:490
-retryRequest @ api.js:36
-retryRequest @ api.js:41
-await in retryRequest (async)
-retryRequest @ api.js:41
-await in retryRequest (async)
-uploadAvatar @ api.js:489
-handleAvatarUpload @ Profile.jsx:107
-processDispatchQueue @ react-dom_client.js?v=57c187ce:11577
-(anonymous) @ react-dom_client.js?v=57c187ce:11988
-batchedUpdates$1 @ react-dom_client.js?v=57c187ce:2539
-dispatchEventForPluginEventSystem @ react-dom_client.js?v=57c187ce:11683
-dispatchEvent @ react-dom_client.js?v=57c187ce:14608
-dispatchDiscreteEvent @ react-dom_client.js?v=57c187ce:14589
-Show 6 more frames
-Show less
+index-CoMvwD4d.js:62 
+ POST https://ai-job-tracker-uq0f.onrender.com/auth/login 404 (Not Found)
+index-CoMvwD4d.js:65 ❌ POST /auth/login failed: 
+{status: 404, message: 'Request failed with status code 404', response: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta char…re>Cannot POST /auth/login</pre>\n</body>\n</html>\n'}
+index-CoMvwD4d.js:62 
+ POST https://ai-job-tracker-uq0f.onrender.com/auth/login 404 (Not Found)
+index-CoMvwD4d.js:65 ❌ POST /auth/login failed: 
+{status: 404, message: 'Request failed with status code 404', response: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta char…re>Cannot POST /auth/login</pre>\n</body>\n</html>\n'}
+index-CoMvwD4d.js:62 
+ POST https://ai-job-tracker-uq0f.onrender.com/auth/login 404 (Not Found)
+index-CoMvwD4d.js:65 ❌ POST /auth/login failed: 
+{status: 404, message: 'Request failed with status code 404', response: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta char…re>Cannot POST /auth/login</pre>\n</body>\n</html>\n'}
+index-CoMvwD4d.js:62 
+ POST https://ai-job-tracker-uq0f.onrender.com/auth/login 404 (Not Found)
+index-CoMvwD4d.js:65 ❌ POST /auth/login failed: 
+{status: 404, message: 'Request failed with status code 404', response: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta char…re>Cannot POST /auth/login</pre>\n</body>\n</html>\n'}
+index-CoMvwD4d.js:62 
+ POST https://ai-job-tracker-uq0f.onrender.com/auth/login 404 (Not Found)
+index-CoMvwD4d.js:65 ❌ POST /auth/login failed: 
+{status: 404, message: 'Request failed with status code 404', response: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta char…re>Cannot POST /auth/login</pre>\n</body>\n</html>\n'}
+﻿

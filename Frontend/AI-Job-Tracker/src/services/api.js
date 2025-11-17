@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Constants
 const API_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = API_URL.endsWith('/api') ? API_URL : `${API_URL}/api`;
 const DEFAULT_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 2; // Reduced from 3 to avoid excessive retries
 const RETRY_DELAY = 1000; // 1 second
@@ -95,7 +96,7 @@ const handleApiError = (error) => {
 
 // Axios instance configuration - SIMPLIFIED to avoid CORS issues
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: BASE_URL,
   timeout: DEFAULT_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
@@ -179,7 +180,7 @@ const enhancedFetch = async (url, options = {}) => {
   }
 
   try {
-    const response = await fetch(`${API_URL}${url}`, config);
+    const response = await fetch(`${BASE_URL}${url}`, config);
     
     if (!response.ok) {
       let errorData;
