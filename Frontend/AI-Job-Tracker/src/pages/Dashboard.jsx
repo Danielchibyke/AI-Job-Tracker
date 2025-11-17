@@ -15,7 +15,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 import { jobService, applicationService, userService } from "../services/api";
-import { logout } from '../api/auth.api';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { FaRegBookmark, FaBookmark, FaArrowUp } from 'react-icons/fa';
 import dayjs from 'dayjs';
@@ -67,8 +67,8 @@ export const Dashboard = () => {
         }
         // Fetch first page of jobs
         const jobsData = await jobService.getAllJobs(1, JOBS_PER_PAGE);
-        setJobs(jobsData.jobs || jobsData); // jobsData.jobs if paginated, else fallback
-        setHasMore(jobsData.hasMore !== undefined ? jobsData.hasMore : (jobsData.length === JOBS_PER_PAGE));
+        setJobs(Array.isArray(jobsData.jobs) ? jobsData.jobs : (Array.isArray(jobsData) ? jobsData : [])); // Ensure jobs is always an array
+        setHasMore(jobsData.hasMore !== undefined ? jobsData.hasMore : (Array.isArray(jobsData) ? jobsData.length === JOBS_PER_PAGE : false));
         setPage(2);
 
         // Fetch application tracking data
@@ -190,7 +190,7 @@ export const Dashboard = () => {
 
     setIsAutoApplying(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ai/auto-apply`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/ai/auto-apply`, {
         userId: user._id,
         jobIds: selectedJobs
       });

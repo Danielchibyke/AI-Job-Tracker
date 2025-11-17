@@ -31,20 +31,20 @@ const Profile = () => {
           github: data.profile?.github || '',
         });
         setAiProfile(data.aiProfile || null);
-        // Fetch avatar as blob from backend
-        try {
-          const avatarRes = await fetch('/api/users/profile/avatar', {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-          });
-          if (avatarRes.ok) {
-            const avatarBlob = await avatarRes.blob();
+        
+        // Set avatar preview from the profile data
+        if (data.profile?.avatar) {
+          try {
+            const avatarBlob = await userService.getAvatar();
             setAvatarPreview(URL.createObjectURL(avatarBlob));
-          } else {
+          } catch (avatarError) {
+            console.error("Failed to load avatar:", avatarError);
             setAvatarPreview(null);
           }
-        } catch {
+        } else {
           setAvatarPreview(null);
         }
+
         setSmartAutomation(!!data.smartAutomationEnabled);
       } catch (err) {
         toast.error('Failed to load profile');
@@ -72,28 +72,10 @@ const Profile = () => {
         'profile.github': form.github || '',
       });
       toast.success('Profile updated successfully!');
+      
       // Automatically refresh AI profile after profile update
-      setRefreshingAI(true);
-      try {
-        const res = await fetch('/api/users/profile/ai-profile/refresh', {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await res.json();
-        if (res.ok) {
-          setAiProfile(data.aiProfile);
-          toast.success('AI profile refreshed!');
-        } else {
-          toast.error(data.message || 'Failed to refresh AI profile');
-        }
-      } catch (err) {
-        toast.error('Failed to refresh AI profile');
-      } finally {
-        setRefreshingAI(false);
-      }
+      await handleRefreshAiProfile();
+
     } catch (err) {
       toast.error('Failed to update profile');
     } finally {
@@ -125,31 +107,15 @@ const Profile = () => {
 
   const handleAvatarUpload = async () => {
     if (!avatarFile) return;
-    const formData = new FormData();
-    formData.append('avatar', avatarFile);
+    setSaving(true);
     try {
-      const res = await fetch('/api/users/profile/avatar', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-        body: formData
-      });
-      const data = await res.json();
-      if (res.ok) {
-        // Fetch the new avatar as blob
-        const avatarRes = await fetch('/api/users/profile/avatar', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        if (avatarRes.ok) {
-          const avatarBlob = await avatarRes.blob();
-          setAvatarPreview(URL.createObjectURL(avatarBlob));
-        }
-        setAvatarFile(null);
-        toast.success('Profile picture updated!');
-      } else {
-        toast.error(data.error || 'Failed to upload profile picture');
-      }
+      await userService.uploadAvatar(avatarFile);
+      setAvatarFile(null);
+      toast.success('Profile picture updated!');
     } catch (err) {
-      toast.error('Failed to upload profile picture');
+      toast.error(err.message || 'Failed to upload profile picture');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -158,7 +124,7 @@ const Profile = () => {
     // Re-fetch avatar from backend
     (async () => {
       try {
-        const avatarRes = await fetch('/api/users/profile/avatar', {
+        const avatarRes = await fetch('/users/profile/avatar', {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (avatarRes.ok) {
@@ -177,22 +143,11 @@ const Profile = () => {
   const handleRefreshAiProfile = async () => {
     setRefreshingAI(true);
     try {
-      const res = await fetch('/api/users/profile/ai-profile/refresh', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setAiProfile(data.aiProfile);
-        toast.success('AI profile refreshed!');
-      } else {
-        toast.error(data.message || 'Failed to refresh AI profile');
-      }
+      const data = await userService.refreshAiProfile();
+      setAiProfile(data.aiProfile);
+      toast.success(data.message || 'AI profile refreshed!');
     } catch (err) {
-      toast.error('Failed to refresh AI profile');
+      toast.error(err.message || 'Failed to refresh AI profile');
     } finally {
       setRefreshingAI(false);
     }

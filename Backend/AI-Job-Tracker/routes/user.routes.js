@@ -11,6 +11,7 @@ import { verifyToken } from '../utils/verifyToken.js';
 import NotificationService from '../services/notification.service.js';
 
 const router = express.Router();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -39,16 +40,7 @@ const upload = multer({
 });
 
 // Configure multer for avatar upload
-const avatarStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(process.cwd(), 'uploads', 'avatars');
-    fs.mkdirSync(uploadPath, { recursive: true });
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
+const avatarStorage = multer.memoryStorage();
 const avatarUpload = multer({
   storage: avatarStorage,
   fileFilter: (req, file, cb) => {
@@ -201,7 +193,7 @@ router.get('/profile', verifyToken, async (req, res) => {
 });
 
 // Update user profile
-router.put('/profile', verifyToken, async (req, res) => {
+router.put('/profile', verifyToken, express.json(), async (req, res) => {
   try {
     const userId = req.user.userid; // Corrected: get userId from auth middleware
     const user = await User.findById(userId);
@@ -310,14 +302,11 @@ router.post('/profile/avatar', verifyToken, avatarUpload.single('avatar'), async
       user.markModified('profile');
     }
     // Store avatar as Buffer in MongoDB
-    const avatarBuffer = fs.readFileSync(req.file.path);
     user.profile.avatar = {
-      data: avatarBuffer,
+      data: req.file.buffer,
       contentType: req.file.mimetype
     };
     await user.save();
-    // Remove file from filesystem
-    fs.unlinkSync(req.file.path);
     res.json({ message: 'Profile picture updated' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to upload profile picture', details: error.message });

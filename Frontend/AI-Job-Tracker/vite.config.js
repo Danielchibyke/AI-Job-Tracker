@@ -9,7 +9,7 @@ export default defineConfig({
       '/api': {
         target: 'https://ai-job-tracker-6ekq.onrender.com',
         changeOrigin: true,
-        secure: true,
+        secure: false,
         credentials: true,
        
       },

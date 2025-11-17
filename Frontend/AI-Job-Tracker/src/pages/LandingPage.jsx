@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { logout } from '../api/auth.api';
+
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthProvider';
 

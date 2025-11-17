@@ -11,7 +11,7 @@ function AiService() {
     setSelectedService(service);
     setLoading(true);
     try {
-      const response = await axios.post(`http://localhost:3000/api/ai/${service.toLowerCase().replace(/\s+/g, '-')}`);
+      const response = await axios.post(`https://ai-job-tracker-6ekq.onrender.com/api/ai/${service.toLowerCase().replace(/\s+/g, '-')}`);
       setResult(response.data);
     } catch (error) {
       console.error('Error:', error);

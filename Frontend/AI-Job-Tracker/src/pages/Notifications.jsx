@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { logout } from '../api/auth.api';
+import { userService } from '../services/api';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -10,13 +10,8 @@ const Notifications = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/users/notifications');
-      const data = await res.json();
-      if (res.ok) {
-        setNotifications(data.notifications);
-      } else {
-        setError(data.message || 'Failed to fetch notifications');
-      }
+      const data = await userService.getNotifications();
+      setNotifications(data.notifications);
     } catch (err) {
       setError('Failed to fetch notifications');
     } finally {
@@ -26,10 +21,8 @@ const Notifications = () => {
 
   const markAsRead = async (id) => {
     try {
-      const res = await fetch(`/api/users/notifications/${id}/read`, { method: 'POST' });
-      if (res.ok) {
-        setNotifications((prev) => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
-      }
+      await userService.markNotificationAsRead(id);
+      setNotifications((prev) => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
     } catch (err) {
       // Optionally handle error
     }
@@ -46,12 +39,6 @@ const Notifications = () => {
     <div className="max-w-2xl mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold">Notifications</h2>
-        <button
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
-          onClick={logout}
-        >
-          Logout
-        </button>
       </div>
       {notifications.length === 0 ? (
         <div>No notifications yet.</div>

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { login, signup } from "../../api/auth.api.js";
+import { authService } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import Input from "../../components/ui/Input";
@@ -7,7 +7,7 @@ import Button from "../../components/ui/Button";
 import toast from "react-hot-toast";
 
 const Signup = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -25,17 +25,17 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await signup(formData);
-      const loginRes = await login({ email: formData.email, password: formData.password });
-      if (loginRes.data && loginRes.data.user) {
-        setUser(loginRes.data.user);
+      await authService.signup(formData);
+      const loginData = await authService.login({ email: formData.email, password: formData.password });
+      if (loginData && loginData.user) {
+        setUser(loginData.user);
         toast.success("User registered and logged in successfully");
         navigate("/onboarding");
       } else {
         toast.error("Signup succeeded but login failed");
       }
     } catch (err) {
-      toast.error(err.response?.data?.msg || "Registration failed");
+      toast.error(err.message || "Registration failed");
     } finally {
       setLoading(false);
     }

@@ -5,6 +5,7 @@ import { scrapeSerpApiJobs } from '../services/job.scraper.js';
 import NotificationService from '../services/notification.service.js';
 
 const router = express.Router();
+router.use(express.json());
 
 // Get all jobs with pagination
 router.get('/', async (req, res) => {

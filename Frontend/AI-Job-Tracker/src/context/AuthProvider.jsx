@@ -1,7 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-
-import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { authService } from "../services/api";
 
 export const AuthContext = createContext(null);
 
@@ -9,34 +8,36 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
   return context;
 };
-export const AuthProvider = ({ children }) => {
-  // console.log(useAuth())
-  const [user, setUser] = useState(null);
 
-  const location = useLocation();
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // console.log(user);
+    const checkUser = async () => {
+      const publicRoutes = ["/", "/login", "/signup", "/features"];
+      if (publicRoutes.includes(location.pathname)) {
+        return;
+      }
 
-    const publicRoutes = ["/", "/login", "/signup", "/features"];
-    if (publicRoutes.includes(location.pathname)) {
-      return;
-    }
-
-    axios
-      .get("https://ai-job-tracker-6ekq.onrender.com/api/auth/welcome", { withCredentials: true })
-      .then((res) => {
-        setUser(res.data.user);
-      })
-      .catch((err) => {
-        setUser(null);
-
-        if (err.response?.status === 401) {
+      try {
+        const data = await authService.getCurrentUser();
+        if (data && data.user) {
+          setUser(data.user);
+        } else {
+          setUser(null);
           navigate("/login");
         }
-        // navigate("/");
-      });
+      } catch (error) {
+        setUser(null);
+        if (error.statusCode === 401) {
+          navigate("/login");
+        }
+      }
+    };
+
+    checkUser();
   }, [navigate, location.pathname]);
 
   return (

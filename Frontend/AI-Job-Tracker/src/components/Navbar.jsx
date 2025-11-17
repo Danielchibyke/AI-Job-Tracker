@@ -1,59 +1,55 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
-import { logout } from '../api/auth.api';
+import { authService, userService } from '../services/api';
 import { motion } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
-  const [avatarUrl, setAvatarUrl] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   useEffect(() => {
     let interval;
     const fetchUnread = async () => {
       if (!user) return setUnreadCount(0);
       try {
-        const res = await fetch('/api/users/notifications/unread/count', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        const data = await res.json();
+        const data = await userService.getUnreadNotificationCount();
         setUnreadCount(data.count || 0);
-      } catch {
+      } catch (error) {
+        console.error("Failed to fetch unread count:", error);
         setUnreadCount(0);
       }
     };
+
+    const fetchAvatar = async () => {
+      if (user && user.profile?.avatar) {
+        try {
+          const avatarBlob = await userService.getAvatar();
+          setAvatarPreview(URL.createObjectURL(avatarBlob));
+        } catch (error) {
+          console.error("Failed to load avatar:", error);
+          setAvatarPreview(null);
+        }
+      } else {
+        setAvatarPreview(null);
+      }
+    };
+
     fetchUnread();
+    fetchAvatar();
     interval = setInterval(fetchUnread, 30000);
     return () => clearInterval(interval);
   }, [user]);
 
-  // Fetch avatar when user logs in
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      if (!user) {
-        setAvatarUrl(null);
-        return;
-      }
-      try {
-        const res = await fetch('/api/users/profile/avatar', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        if (res.ok) {
-          const blob = await res.blob();
-          setAvatarUrl(URL.createObjectURL(blob));
-        } else {
-          setAvatarUrl(null);
-        }
-      } catch {
-        setAvatarUrl(null);
-      }
-    };
-    fetchAvatar();
-  }, [user]);
+  const handleLogout = async () => {
+    await authService.logout();
+    setUser(null);
+    navigate('/login');
+  };
 
   return (
     <nav className="w-full bg-white shadow py-4 px-4 sm:px-8 flex items-center justify-between fixed top-0 left-0 z-50">
@@ -100,7 +96,7 @@ const Navbar = () => {
             <Link to="/profile" className="flex items-center py-2 px-4 sm:p-0" title="Profile" onClick={() => setMenuOpen(false)}>
               <motion.img
                 whileHover={{ scale: 1.15, rotate: 8 }}
-                src={avatarUrl || '/default-avatar.png'}
+                src={avatarPreview || '/default-avatar.png'}
                 alt="avatar"
                 className="w-8 h-8 rounded-full object-cover border border-blue-300 hover:ring-2 hover:ring-blue-400 transition-all"
               />
@@ -108,7 +104,7 @@ const Navbar = () => {
             <motion.button
               whileTap={{ scale: 0.95 }}
               className="flex items-center gap-1 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors font-medium w-full sm:w-auto"
-              onClick={() => { setMenuOpen(false); logout(); }}
+              onClick={() => { setMenuOpen(false); handleLogout(); }}
             >
               {/* Logout icon */}
               <svg className="w-5 h-5 mr-1 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" /></svg>
@@ -117,25 +113,17 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <Link to="/login" className="group flex items-center gap-1 text-blue-700 font-medium py-2 px-4 sm:p-0" onClick={() => setMenuOpen(false)}>
-              <motion.span whileHover={{ scale: 1.2 }} className="inline-block">
-                {/* Login icon */}
-                <svg className="w-5 h-5 mr-1 text-blue-500 group-hover:text-blue-700 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14m-7-7l7 7-7 7" /></svg>
-              </motion.span>
+            <Link to="/login" className="group text-blue-700 font-medium py-2 px-4 sm:p-0" onClick={() => setMenuOpen(false)}>
               <span className="group-hover:underline transition">Login</span>
             </Link>
-            <Link to="/signup" className="group flex items-center gap-1 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors font-medium w-full sm:w-auto" onClick={() => setMenuOpen(false)}>
-              <motion.span whileHover={{ scale: 1.2 }} className="inline-block">
-                {/* Signup icon */}
-                <svg className="w-5 h-5 mr-1 text-white group-hover:text-blue-200 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-              </motion.span>
-              <span className="group-hover:underline transition">Sign Up</span>
+            <Link to="/register" className="group text-blue-700 font-medium py-2 px-4 sm:p-0" onClick={() => setMenuOpen(false)}>
+              <span className="group-hover:underline transition">Register</span>
             </Link>
           </>
         )}
       </div>
     </nav>
   );
-};
+}
 
-export default Navbar; 
+export default Navbar;

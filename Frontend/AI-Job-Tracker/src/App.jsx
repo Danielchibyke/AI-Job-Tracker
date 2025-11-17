@@ -50,18 +50,20 @@ function App() {
     <>
       <Toaster position="top-right" />
       {!hideNavbar && <Navbar />}
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/onboarding" element={<OnboardingFlow />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/jobs/:id" element={<JobDetails />} />
-      <Route path="/notifications" element={<Notifications />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/automation-monitor" element={<AutomationMonitor />} />
-      <Route path="/features" element={<Features />} />
-    </Routes>
+      <div className={!hideNavbar ? "pt-16" : ""}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/onboarding" element={<OnboardingFlow />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/jobs/:id" element={<JobDetails />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/automation-monitor" element={<AutomationMonitor />} />
+          <Route path="/features" element={<Features />} />
+        </Routes>
+      </div>
     </>
   );
 }

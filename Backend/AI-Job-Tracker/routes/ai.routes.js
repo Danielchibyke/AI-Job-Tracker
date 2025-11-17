@@ -6,6 +6,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { scrapeSerpApiJobs } from '../services/job.scraper.js';
 
 const router = express.Router();
+router.use(express.json());
 
 //Scrape job listings using SerAPI
 router.get("/scrape", async (req, res) => {

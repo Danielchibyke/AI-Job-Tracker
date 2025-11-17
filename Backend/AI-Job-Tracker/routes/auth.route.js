@@ -3,6 +3,7 @@ import userService from "../services/user.service.js";
 import { verifyToken } from "../utils/verifyToken.js";
 
 const router = express.Router();
+router.use(express.json());
 
 router.post("/signup", userService.signUp);
 router.post("/login", userService.login);

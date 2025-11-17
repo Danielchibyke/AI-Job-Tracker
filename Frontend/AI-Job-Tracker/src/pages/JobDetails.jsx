@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import dayjs from 'dayjs';
 import SkeletonLoader from '../components/ui/SkeletonLoader';
+import { jobService } from '../services/api';
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -15,9 +16,7 @@ const JobDetails = () => {
     async function fetchJob() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/jobs/${id}`);
-        if (!res.ok) throw new Error('Failed to fetch job details');
-        const data = await res.json();
+        const data = await jobService.getJobById(id);
         setJob(data);
       } catch (err) {
         setError(err.message);

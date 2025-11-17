@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { login } from "../../api/auth.api";
+import { authService } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import Input from "../../components/ui/Input";
@@ -17,7 +17,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (user !== null) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
@@ -33,16 +33,16 @@ export const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await login(formData);
-      if (res.data && res.data.user) {
-        setUser(res.data.user);
-        toast.success(`Welcome back ${res.data.user.fullname}`);
-        navigate("/");
+      const data = await authService.login(formData);
+      if (data && data.user) {
+        setUser(data.user);
+        toast.success(`Welcome back ${data.user.fullname}`);
+        navigate("/dashboard");
       } else {
         toast.error("Login failed: No user data returned");
       }
     } catch (err) {
-      toast.error(err.response?.data?.msg || "User not found, please register");
+      toast.error(err.message || "An error occurred during login.");
     } finally {
       setLoading(false);
     }
